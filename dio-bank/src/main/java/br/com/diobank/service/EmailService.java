@@ -49,15 +49,10 @@ public class EmailService {
 //        FileSystemResource file = new FileSystemResource(new File(emailDetails.getAttachment()));
 //        mimeMessageHelper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
 
-        String attachmentPath = "classpath:assets/LOGO-DIO-COLOR.png";
-        ClassPathResource classPathResource = new ClassPathResource(attachmentPath);
 
-        try {
-            InputStream inputStream = classPathResource.getInputStream();
-            mimeMessageHelper.addAttachment("LOGO-DIO-COLOR.png", (DataSource) inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String logoPath = "assets/logo.png";
+        mimeMessageHelper.addAttachment("logo.png", new ClassPathResource(logoPath));
+
 
 
         javaMailSender.send(mimeMessageHelper.getMimeMessage());
