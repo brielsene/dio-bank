@@ -3,11 +3,14 @@ package br.com.diobank.service;
 import br.com.diobank.dto.AccountResponseDTO;
 import br.com.diobank.dto.SignupRequestDto;
 import br.com.diobank.model.Account;
+import br.com.diobank.model.EmailDetails;
 import br.com.diobank.model.User;
 import br.com.diobank.repository.AccountRepository;
 import br.com.diobank.repository.UserRepository;
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,16 +25,43 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private EmailService emailService;
+
 
     @Autowired
     private UserRepository userRepository;
 
-    public void cadastrar(SignupRequestDto dados){
+    public void cadastrar(SignupRequestDto dados) throws MessagingException {
         Account account = getAccount();
-        User user = new User(null, dados.nome(), dados.senha(), account, null );
+        User user = new User(null, dados.nome(), dados.senha(), dados.email(), account, null );
         account.setUser(user);
         userRepository.save(user);
+        //
+        enviarEmail(dados, account);
+        //
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setSubject("Criação da conta no Dio-Bank");
+        emailDetails.setRecipient(dados.email());
+        emailDetails.setMessageBody("Olá "+ dados.nome()+", conta criado com sucesso! \n" +"Agência: "+ account.getAgency()+". \n"+
+                "Número da conta: "+ account.getNumber()+"\n \n"+" Qualquer dúvida entrar em contato com a DIO. \n"+
+                "Atenciosamente, DIO, DIO-BANK");
 
+
+
+
+        emailService.sendEmailWithAttachment(emailDetails);
+
+    }
+
+    private void enviarEmail(SignupRequestDto dados, Account account) {
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setSubject("Criação da conta no Dio-Bank");
+        emailDetails.setRecipient(dados.email());
+        emailDetails.setMessageBody("Olá "+ dados.nome()+", conta criado com sucesso! \n" +"Agência: "+ account.getAgency()+". \n"+
+                "Número da conta: "+ account.getNumber()+"\n \n"+" Qualquer dúvida entrar em contato com a DIO. \n"+
+                "Atenciosamente, DIO, DIO-BANK");
+        emailService.sendEmail(emailDetails);
     }
 
     private Account getAccount() {
@@ -60,6 +90,16 @@ public class AccountService {
         AccountResponseDTO accountResponseDTO = new AccountResponseDTO(account);
         return accountResponseDTO;
 
+    }
+
+    public void atualizarSenha(Long id, SignupRequestDto dados){
+        User user = userRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Usuário inexistente com id: "+id));
+        user.setSenha(dados.senha());
+        userRepository.save(user);
+    }
+
+    public void deletarConta(Long id){
+        userRepository.deleteById(id);
     }
 }
 
