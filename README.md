@@ -62,6 +62,12 @@ classDiagram
 ## Organização das classes
 ![class](https://github.com/brielsene/dio-bank/assets/87671071/203fdf21-da48-4d37-8cc3-bfa9b6bf8985)
 
+## Demonstração
+Email que é enviado automaticamente quando cadastramos uma conta:
+<br>
+![dio](https://github.com/brielsene/dio-bank/assets/87671071/44835d50-4e01-4056-b11f-ffa272dad3ce)
+
+
 
 ## Funcionalidades
 - Criar uma conta bancária
