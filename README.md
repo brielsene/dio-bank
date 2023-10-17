@@ -41,10 +41,59 @@ classDiagram
     }
 
     Account "1" --o "1" User : Contains
-    User "0..1" --o "0..*" Card : Owns
+    User "1" --o "0..*" Card : Owns
 
 
 
     
    
 ```
+
+## Tecnologias Utilizadas
+
+- Java 20
+- Spring Boot
+- Spring Data JPA
+- Lombok
+- MySQL (Prod)
+- H2 (Dev)
+- JavaMail
+
+## Organização das classes
+![class](https://github.com/brielsene/dio-bank/assets/87671071/203fdf21-da48-4d37-8cc3-bfa9b6bf8985)
+
+
+## Funcionalidades
+- Criar uma conta bancária
+- Visualização de contas
+- Visualizar o extrato da conta
+- Associar cartões a uma conta
+- Enviar e-mail de confirmação de cadastro.
+
+## Estrutura do Projeto
+
+O projeto é dividido nas seguintes classes principais:
+
+- `Account`: Representa uma conta bancária.
+- `User`: Representa um usuário do banco e está associado a uma conta.
+- `Card`: Representa cartões associados a um usuário.
+- `EmailDetails`: Classe auxiliar para enviar e-mails com anexos.
+
+## Implementações Futuras
+O Projeto está apenas com implementações simples de cada recursos que temos, logo será atualizado com mais métodos relacionados a usuário, conta e cartão.
+Além da adição de Spring Security.
+
+## Como Usar
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/brielsene/dio-bank.git
+
+## Redes Sociais
+- Linkedin
+  <br>
+https://www.linkedin.com/in/gabrielsenec
+
+
+
