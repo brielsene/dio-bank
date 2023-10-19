@@ -1,5 +1,6 @@
 package br.com.diobank.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class Account {
     private String agency;
     private float balance;
     private float limite;
+    @JsonBackReference
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
